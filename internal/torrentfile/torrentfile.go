@@ -1,3 +1,4 @@
+// Package torrentfile describes and parse .torrent files
 package torrentfile
 
 import (
@@ -5,6 +6,8 @@ import (
 	"io"
 	"net/url"
 	"strconv"
+
+	"github.com/Talismanch1k/gotor/internal/bencode"
 )
 
 type TorrentFile struct {
@@ -17,17 +20,17 @@ type TorrentFile struct {
 }
 
 func (t *TorrentFile) Read(r io.Reader) (*TorrentFile, error) {
-	ben, err := parse(r)
+	ben, err := bencode.Parse(r)
 	if err != nil {
 		return nil, fmt.Errorf("parse bencode from torrent file: %w", err)
 	}
 
-	infoHash, err := ben.Info.hash()
+	infoHash, err := ben.Info.Hash()
 	if err != nil {
 		return nil, fmt.Errorf("get info hash: %w", err)
 	}
 
-	pieceHashes, err := ben.Info.splitPieceHashes()
+	pieceHashes, err := ben.Info.SplitPieceHashes()
 	if err != nil {
 		return nil, fmt.Errorf("split piece hashes: %w", err)
 	}

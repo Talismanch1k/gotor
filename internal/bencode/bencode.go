@@ -1,5 +1,4 @@
-// Package torrentfile describes and parse .torrent files
-package torrentfile
+package bencode
 
 import (
 	"bytes"
@@ -24,7 +23,7 @@ type bencodeInfo struct {
 	Length      int    `bencode:"length"`
 }
 
-func parse(r io.Reader) (*bencodeTorrent, error) {
+func Parse(r io.Reader) (*bencodeTorrent, error) {
 	file := bencodeTorrent{}
 
 	err := bencode.Unmarshal(r, &file)
@@ -37,10 +36,10 @@ func parse(r io.Reader) (*bencodeTorrent, error) {
 
 // bencode-info
 
-func (bi *bencodeInfo) splitPieceHashes() ([][20]byte, error) {
+func (bi *bencodeInfo) SplitPieceHashes() ([][20]byte, error) {
 	buf := []byte(bi.Pieces)
 	if len(buf)%hashLen != 0 {
-		return nil, fmt.Errorf("have mailformed pieces of length: %d", len(buf))
+		return nil, fmt.Errorf("have malformed pieces of length: %d", len(buf))
 	}
 
 	numHashes := bi.PieceLength / hashLen
@@ -53,7 +52,7 @@ func (bi *bencodeInfo) splitPieceHashes() ([][20]byte, error) {
 	return hashes, nil
 }
 
-func (bi *bencodeInfo) hash() ([20]byte, error) {
+func (bi *bencodeInfo) Hash() ([20]byte, error) {
 	var buf bytes.Buffer
 	err := bencode.Marshal(&buf, bi)
 	if err != nil {
