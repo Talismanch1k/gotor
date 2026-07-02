@@ -1,4 +1,4 @@
-module github.com/Talismanch1k/gotor
+module github.com/mioteki/gotor
 
 go 1.26.3
 
