@@ -11,12 +11,17 @@ import (
 )
 
 type TorrentFile struct {
+	// metainfo
+	Announce string // URL of the tracker
+
+	// metainfo dict
 	Name        string
-	Announce    string
-	InfoHash    [20]byte
-	PieceHashes [][20]byte
-	PieceLength int
-	Length      int
+	PieceHashes [][20]byte // sha1 hash of each file
+	PieceLength int        // number of bytes each files is split into
+	Length      int        // Length of the file in bytes
+
+	// hash of metainfo dict
+	InfoHash [20]byte // sha1 hash of metainfo (bencodeInfo struct)
 }
 
 func (t *TorrentFile) Read(r io.Reader) (*TorrentFile, error) {

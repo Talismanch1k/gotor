@@ -9,7 +9,10 @@ import (
 	bencode "github.com/jackpal/bencode-go"
 )
 
-const hashLen = 20 // sha1 hash length
+const hashLen = sha1.Size // sha1 hash length
+
+// BEP 3 metainfos files
+// Structs for parsing from bendcode, i.e. DTO
 
 type bencodeTorrent struct {
 	Announce string      `bencode:"announce"`
@@ -42,11 +45,11 @@ func (bi *bencodeInfo) SplitPieceHashes() ([][20]byte, error) {
 		return nil, fmt.Errorf("have malformed pieces of length: %d", len(buf))
 	}
 
-	numHashes := bi.PieceLength / hashLen
+	numHashes := len(buf) / hashLen
 	hashes := make([][20]byte, numHashes)
 
-	for i := 0; i < len(buf); i += hashLen {
-		copy(hashes[i%hashLen][:], buf[i*hashLen:(i+1)*hashLen])
+	for i := 0; i < numHashes; i += hashLen {
+		copy(hashes[i][:], buf[i*hashLen:(i+1)*hashLen])
 	}
 
 	return hashes, nil
@@ -54,6 +57,7 @@ func (bi *bencodeInfo) SplitPieceHashes() ([][20]byte, error) {
 
 func (bi *bencodeInfo) Hash() ([20]byte, error) {
 	var buf bytes.Buffer
+
 	err := bencode.Marshal(&buf, bi)
 	if err != nil {
 		return [20]byte{}, fmt.Errorf("marshal for hash: %w", err)
