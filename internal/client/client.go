@@ -7,10 +7,10 @@ import (
 	"net"
 	"time"
 
-	"github.com/Talismanch1k/gotor/internal/bitfield"
-	"github.com/Talismanch1k/gotor/internal/handshake"
-	"github.com/Talismanch1k/gotor/internal/message"
-	"github.com/Talismanch1k/gotor/internal/peer"
+	"github.com/mioteki/gotor/internal/bitfield"
+	"github.com/mioteki/gotor/internal/handshake"
+	"github.com/mioteki/gotor/internal/message"
+	"github.com/mioteki/gotor/internal/peer"
 )
 
 const (

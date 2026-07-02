@@ -7,7 +7,7 @@ import (
 	"net/url"
 	"strconv"
 
-	"github.com/Talismanch1k/gotor/internal/bencode"
+	"github.com/mioteki/gotor/internal/bencode"
 )
 
 type TorrentFile struct {

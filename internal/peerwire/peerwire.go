@@ -9,9 +9,9 @@ import (
 	"sync"
 	"time"
 
-	"github.com/Talismanch1k/gotor/internal/client"
-	"github.com/Talismanch1k/gotor/internal/message"
-	"github.com/Talismanch1k/gotor/internal/peer"
+	"github.com/mioteki/gotor/internal/client"
+	"github.com/mioteki/gotor/internal/message"
+	"github.com/mioteki/gotor/internal/peer"
 )
 
 // Process:
